@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
                 userDto.getUserDisplayName(),
                 userDto.getPassword(),
                 creationDate,
-                "ROLE_USER"
-        );
+                "ROLE_USER");
+        userRepository.save(user);
     }
 
     @Override
