@@ -1,6 +1,6 @@
 package com.example.upload;
 
-public class FileUploadRespond {
+public class FileUploadResponse {
 	private String fileName;
     private String downloadUri;
     private long size;

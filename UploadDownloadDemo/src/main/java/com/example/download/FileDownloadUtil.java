@@ -8,11 +8,11 @@ import java.nio.file.Paths;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
-public class FileUploadUtil {
+
 	public class FileDownloadUtil {
 	    private Path foundFile;
 	     
-	    public Resource getFileAsResource(String fileCode) throws IOException {
+	    public Resource getFile(String fileCode) throws IOException {
 	        Path dirPath = Paths.get("Files-Upload");
 	         
 	        Files.list(dirPath).forEach(file -> {
@@ -29,4 +29,4 @@ public class FileUploadUtil {
 	        return null;
 	    }
 	}
-}
+
