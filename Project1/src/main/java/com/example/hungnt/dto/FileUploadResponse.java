@@ -1,4 +1,4 @@
-package com.example.upload;
+package com.example.hungnt.dto;
 
 public class FileUploadResponse {
 	private String fileName;
