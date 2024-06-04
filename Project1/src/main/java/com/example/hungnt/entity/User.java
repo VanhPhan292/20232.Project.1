@@ -45,4 +45,9 @@ public class User implements Serializable{
         CreationDate = creationDate;
         Role = role;
     }
+
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return Password;
+	}
 }
