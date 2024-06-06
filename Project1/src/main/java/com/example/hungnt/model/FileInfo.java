@@ -1,4 +1,4 @@
-package com.example.FileManager.model;
+package com.example.hungnt.model;
 
 public class FileInfo {
 	private String name;

@@ -1,8 +1,10 @@
-package com.example.FileManager.controller;
+package com.example.hungnt.controller.file;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.hungnt.model.FileInfo;
+import com.example.hungnt.service.FilesStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.FileManager.model.FileInfo;
-import com.example.FileManager.service.FilesStorageService;
+
 
 @Controller
 public class FileController {

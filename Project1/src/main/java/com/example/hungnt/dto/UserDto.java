@@ -55,7 +55,5 @@ public class UserDto implements  Serializable {
         Password = password;
     }
 
-	public UserDto() {
-		// TODO Auto-generated constructor stub
-	}
+
 }
