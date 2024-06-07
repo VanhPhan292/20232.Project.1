@@ -11,14 +11,15 @@
 </head>
 
 <body>
-  <div th:replace="fragments/header :: header"></div>
+<th:block th:include="/_header_on" th:if="${userdto.email}"></th:block>
+<th:block th:include="/_header_off" th:unless="${userdto.email}"></th:block>
   <div class="container" style="max-width: 500px">
   <h3 class="mb-3">File Upload</h3>
 
   <form
     id="uploadForm"
     method="post"
-    th:action="@{/files/upload}"
+    th:action="@{/home/upload}"
     enctype="multipart/form-data">
     <input id="input-file" type="file" name="file" />
     <button class="btn btn-sm btn-outline-success float-right" type="submit">
