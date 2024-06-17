@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.example.hungnt.entity.User;
 import com.example.hungnt.service.FilesStorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
-  private final Path root = Paths.get("./Files-Upload");
+  private Path root; //= Paths.get("./Files-Upload");
 
   @Override
   public void init() {
@@ -73,8 +74,9 @@ public class FilesStorageServiceImpl implements FilesStorageService {
   }
 
   @Override
-  public Stream<Path> loadAll() {
+  public Stream<Path> loadAll(User user) {
     try {
+      root = Paths.get(user.getUserDisplayName() + "_id_" + user.getID());
       return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
     } catch (IOException e) {
       e.printStackTrace();

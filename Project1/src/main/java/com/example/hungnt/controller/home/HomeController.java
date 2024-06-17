@@ -3,8 +3,10 @@ package com.example.hungnt.controller.home;
 
 import com.example.hungnt.dto.UserDto;
 
+import com.example.hungnt.entity.User;
 import com.example.hungnt.model.FileInfo;
 import com.example.hungnt.service.FilesStorageService;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -33,9 +35,12 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String showHomeForm(@ModelAttribute("userdto") UserDto userDto, Model model){
-
-        List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
+    public String showHomeForm(@ModelAttribute("userdto") UserDto userDto, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user==null) {//
+            return "redirect:/login";//
+        }//
+        List<FileInfo> fileInfos = storageService.loadAll(user).map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
                     .fromMethodName(HomeController.class, "getFile", path.getFileName().toString()).build().toString();
@@ -48,12 +53,18 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String homepage() {
+    public String homepage(HttpSession session) {
+        if(session.getAttribute("user")==null) {//
+            return "redirect:/login";//
+        }//
         return "redirect:/home";
     }
 
     @GetMapping("/home/new")
-    public String newFile(Model model) {
+    public String newFile(Model model, HttpSession session) {
+        if(session.getAttribute("user")==null) {//
+            return "redirect:/login";//
+        }//
         return "upload_form";
     }
 
@@ -75,14 +86,19 @@ public class HomeController {
     }
 
     @GetMapping("/home/{filename:.+}")
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) { //*
+
         Resource file = storageService.load(filename);
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @GetMapping("/home/delete/{filename:.+}")
-    public String deleteFile(@PathVariable String filename, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteFile(@PathVariable String filename, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        if(session.getAttribute("user")==null) {//
+            return "redirect:/login";//
+        }//
+
         try {
             boolean existed = storageService.delete(filename);
 
@@ -96,6 +112,6 @@ public class HomeController {
                     "Could not delete the file: " + filename + ". Error: " + e.getMessage());
         }
 
-        return "redirect:/files";
+        return "redirect:/home";
     }
 }
