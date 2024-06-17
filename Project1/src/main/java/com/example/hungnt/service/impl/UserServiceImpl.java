@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public void save(UserDto userDto) {
+    public User save(UserDto userDto) {
         LocalDateTime Date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String creationDate = Date.format(formatter);
@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
                 "ROLE_USER");
         User iden = userRepository.save(user);
         createDir(iden);
+        return iden;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void createDir(User user){
-        String directoryName = user.getUserDisplayName() + "_id=" + user.getID();
+        String directoryName = user.getUserDisplayName() + "_id_" + user.getID();
 
         // Address of Current Directory
         String currentDirectory = System.getProperty("user.dir");

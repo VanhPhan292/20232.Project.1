@@ -1,6 +1,7 @@
 package com.example.hungnt.controller.user_login_logout_registration;
 
 import com.example.hungnt.dto.UserDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,9 +25,10 @@ public class LogoutController {
     }
 
     @GetMapping("/logout")
-    public String Logout(@ModelAttribute("userdto") UserDto userDto, WebRequest request, SessionStatus status){
+    public String Logout(@ModelAttribute("userdto") UserDto userDto, WebRequest request, SessionStatus status, HttpSession session){
 //        Xóa session user ra khỏi vị trí
-        status.setComplete();// đã hoàn thành
+        //status.setComplete();// đã hoàn thành
+        session.invalidate();
         request.removeAttribute("userdto",WebRequest.SCOPE_SESSION);//thực hiện xóa userdto ra khỏi tầm của session
         return "redirect:/login";
     }
