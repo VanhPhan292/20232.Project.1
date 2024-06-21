@@ -6,18 +6,24 @@ import com.example.hungnt.dto.UserDto;
 import com.example.hungnt.entity.User;
 import com.example.hungnt.model.FileInfo;
 import com.example.hungnt.service.FilesStorageService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,13 +83,18 @@ public class HomeController {
 
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             model.addAttribute("message", message);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
             model.addAttribute("message", message);
         }
 
         return "upload_form";
     }
+
+
+
+
 
     @GetMapping("/home/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) { //*
